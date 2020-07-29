@@ -1,0 +1,67 @@
+version: "3.5"
+
+services:
+  cs-case-api:
+    container_name: cs-case-api_container
+    image: cs-case-api:latest
+    restart: always
+    depends_on:
+      - "postgres_image"
+      - "redis_image"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9901:80"
+    networks:
+      - cs-case-api
+
+  redis_image:
+    container_name: redis_container
+    image: redis:latest
+    restart: always
+    command: redis-server --requirepass changeme
+    volumes:
+      - "redisdata:/data"
+    ports:
+      - "6379:6379"
+    networks:
+      - cs-case-api
+
+  postgres_image:
+    container_name: postgres_container
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      PGDATA: /data/postgres
+    volumes:
+      - postgresdata:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - cs-case-api
+
+  pgadmin_image:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+    volumes:
+      - pgadmindata:/root/.pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    networks:
+      - cs-case-api
+
+networks:
+  cs-case-api:
+    driver: bridge
+
+volumes:
+  redisdata:
+  postgresdata:
+  pgadmindata:
