@@ -1,26 +1,25 @@
-# cs-case
+# Çiçek Sepeti Basket Case(cs-case)
 
-Çiçek Sepeti Basket Case
+## Run/Debug For Local Computer;
 
-- Run/Debug For Local Computer;
-  Execute "docker-compose up -d" command on project root folder
+Execute "docker-compose up -d" command on project root folder
 
-* Requirements
+##Requirements
 
-. .Net Core 3.1 Runtime
-. Docker
+- .Net Core 3.1 Runtime
+- Docker
 
-- Technologies
+## Technologies
 
-. Net Core 3.1
-. Docker
-. PostgreSql
-. Redis
-. Swaggwer
-. MediatR
-. CleanArchitecture
-. Repository Pattern
+- Net Core 3.1
+- Docker
+- PostgreSql
+- Redis
+- Swaggwer
+- MediatR
+- CleanArchitecture
+- Repository Pattern
 
-- Next Features
+## Next Features
 
-. RabbitMq Entegration; Get Users and Products infos automatically. Send basket events automaticaly.(On RabbitMq)
+- RabbitMq Entegration; Get Users and Products infos automatically. Send basket events automaticaly.(On RabbitMq)
