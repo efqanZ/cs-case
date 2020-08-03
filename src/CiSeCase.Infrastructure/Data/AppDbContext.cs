@@ -22,11 +22,13 @@ namespace CiSeCase.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+
 
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
             modelBuilder.ApplyConfiguration(new BasketConfiguration());
+
+            base.OnModelCreating(modelBuilder);
 
         }
 

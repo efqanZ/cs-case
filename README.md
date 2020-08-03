@@ -2,13 +2,10 @@
 
 Çiçek Sepeti Basket Case
 
-Run/Debug For Local Computer, execute docker-compose file.
+- Run/Debug For Local Computer;
+  Execute "docker-compose up -d" command on project root folder
 
-docker build -t cs-case-api .
-
-When the application first runs, the PostgreSql DB is created automatically.
-
-- Requirements
+* Requirements
 
 . .Net Core 3.1 Runtime
 . Docker

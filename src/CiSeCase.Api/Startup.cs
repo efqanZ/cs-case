@@ -7,6 +7,7 @@ using AutoMapper;
 using CiSeCase.Api.CrossCutting;
 using CiSeCase.Core.Interfaces.Manager;
 using CiSeCase.Core.Interfaces.Repository;
+using CiSeCase.Core.Models;
 using CiSeCase.Core.Services.BasketUseCases;
 using CiSeCase.Infrastructure.Data;
 using CiSeCase.Infrastructure.Data.Repository;
@@ -32,9 +33,15 @@ namespace CiSeCase.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+               .SetBasePath(env.ContentRootPath)
+               .AddConfiguration(configuration)
+               .AddJsonFile("appsettings.json", true, true)
+               .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
+               .AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -42,8 +49,7 @@ namespace CiSeCase.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //ToDo: DbSeeder
-            //ToDo: DockerFile& Docker Compose file
+            //ToDo: Test yaz.
 
 
             RegisterDatas(services);
@@ -76,8 +82,6 @@ namespace CiSeCase.Api
 
             app.UseRouting();
             app.UseRequestResponseLoggingMiddleware();
-            //app.UseAuthentication();
-            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
@@ -92,12 +96,14 @@ namespace CiSeCase.Api
 
 
             app.UseCors("AllowAll");
+
+            SeedData.Initialize(app.ApplicationServices);
         }
 
         private void RegisterDatas(IServiceCollection services)
         {
             services.AddEntityFrameworkNpgsql().AddDbContext<AppDbContext>(opt =>
-                opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConection"))
+                opt.UseNpgsql(Configuration.GetConnectionString("PostgreConnection"))
             );
 
             services.AddScoped<DbContext, AppDbContext>();
@@ -109,8 +115,10 @@ namespace CiSeCase.Api
 
         private void RegisterManagers(IServiceCollection services)
         {
-            services.AddScoped<IHashManager, Sha256HashManager>();
-            services.AddScoped<ICacheManager, MemoryCacheManager>(); //ToDo: Change RedisCacheManager
+            services.AddSingleton<IHashManager, Sha256HashManager>();
+
+            services.AddSingleton<RedisServer>();
+            services.AddSingleton<ICacheManager, RedisCacheManager>();
 
 
             services.AddSingleton<IMapManager, AutoMapperMapManager>();
@@ -137,5 +145,6 @@ namespace CiSeCase.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Çiçek Sepeti Case Api", Version = "v1" });
             });
         }
+
     }
 }

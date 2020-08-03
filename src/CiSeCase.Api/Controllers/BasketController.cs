@@ -17,11 +17,23 @@ namespace CiSeCase.Api.Controllers
             _mediator = mediator;
         }
 
-        public async Task<IActionResult> AddToBasket([FromBody] AddProductToBasketRequest request)
+        [HttpPost]
+        [Route("add")]
+        public async Task<IActionResult> Add([FromBody] AddProductToBasketRequest request)
         {
             var response = await _mediator.Send(request);
 
             return Ok(response);
         }
+
+        [HttpGet]
+        [Route("get")]
+        public async Task<IActionResult> Get(int userId)
+        {
+            var request = new GetBasketRequest { UserId = userId };
+            var response = await _mediator.Send(request);
+            return Ok(response);
+        }
+
     }
 }

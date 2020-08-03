@@ -8,8 +8,11 @@ namespace CiSeCase.Infrastructure.Data.Config
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            //ToDo: !
-            throw new System.NotImplementedException();
+            builder.HasKey(p => p.Id);
+            builder.Property(p => p.Id).IsRequired();
+
+            builder.Property(p => p.CreatedAt).IsRequired();
+            builder.Property(p => p.UpdatedAt).IsRequired();
         }
     }
 }
