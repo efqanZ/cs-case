@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +27,11 @@ namespace CiSeCase.Api.CrossCutting
             {
                 return HttpStatusCode.NotFound;
             }
-            else if (ex is ValidationException)
+            else if (ex is FluentValidation.ValidationException)
+            {
+                return HttpStatusCode.BadRequest;
+            }
+            else if (ex is System.ComponentModel.DataAnnotations.ValidationException)
             {
                 return HttpStatusCode.BadRequest;
             }
