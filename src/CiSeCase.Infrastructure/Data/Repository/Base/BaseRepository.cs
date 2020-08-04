@@ -44,7 +44,7 @@ namespace CiSeCase.Infrastructure.Data.Repository.Base
             if (predicate != null)
                 query = query.Where(predicate);
 
-            var datas = await query.ToListAsync();
+            var datas = await query.ToListAsync<T>();
 
             return datas;
         }
@@ -54,9 +54,9 @@ namespace CiSeCase.Infrastructure.Data.Repository.Base
             var query = _context.Set<T>().Where(x => !x.Deleted);
 
             if (predicate != null)
-                return await query.FirstOrDefaultAsync(predicate);
+                return await query.FirstOrDefaultAsync<T>(predicate);
 
-            return await query.FirstOrDefaultAsync();
+            return await query.FirstOrDefaultAsync<T>();
         }
 
         public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate = null)

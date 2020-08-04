@@ -6,6 +6,8 @@ COPY CiSeCase.sln .
 COPY src/CiSeCase.Api/CiSeCase.Api.csproj ./src/CiSeCase.Api/
 COPY src/CiSeCase.Core/CiSeCase.Core.csproj ./src/CiSeCase.Core/
 COPY src/CiSeCase.Infrastructure/CiSeCase.Infrastructure.csproj ./src/CiSeCase.Infrastructure/
+COPY test/CiSeCase.IntegrationTest/CiSeCase.IntegrationTest.csproj ./test/CiSeCase.IntegrationTest/
+COPY test/CiSeCase.UnitTest/CiSeCase.UnitTest.csproj ./test/CiSeCase.UnitTest/
 RUN dotnet restore
 
 # Copy everything else and build

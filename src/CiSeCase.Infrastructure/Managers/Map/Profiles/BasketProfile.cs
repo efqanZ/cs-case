@@ -8,8 +8,8 @@ namespace CiSeCase.Infrastructure.Managers.Map.Profiles
     {
         public BasketProfile()
         {
-            CreateMap<BasketDto, Basket>();
-            CreateMap<Basket, BasketDto>();
+            CreateMap<BasketDto, Basket>().ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.AddDate));
+            CreateMap<Basket, BasketDto>().ForMember(dest => dest.AddDate, opt => opt.MapFrom(src => src.CreatedAt));
         }
     }
 }

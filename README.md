@@ -4,22 +4,22 @@
 
 Execute "docker-compose up -d" command on project root folder
 
-##Requirements
+## Requirements
 
 - .Net Core 3.1 Runtime
-- Docker
+- Docker & Docker Compose
 
 ## Technologies
 
-- Net Core 3.1
-- Docker
+- .Net Core 3.1
+- Docker & Docker Compose
 - PostgreSql
 - Redis
 - Swaggwer
 - MediatR
-- CleanArchitecture
-- Repository Pattern
+- Fluent Validation
+- Clean Architecture
 
 ## Next Features
 
-- RabbitMq Entegration; Get Users and Products infos automatically. Send basket events automaticaly.(On RabbitMq)
+- RabbitMq Integration; Get Users and Products infos automatically. Send basket events automaticaly.(On RabbitMq)

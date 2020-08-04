@@ -14,6 +14,9 @@ namespace CiSeCase.Infrastructure.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
+            this.ChangeTracker.LazyLoadingEnabled = false;
+            this.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+
         }
 
         public DbSet<User> Users { get; set; }

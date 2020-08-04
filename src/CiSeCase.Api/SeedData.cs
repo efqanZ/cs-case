@@ -17,11 +17,11 @@ namespace CiSeCase.Api
                 // auto migration
                 context.Database.Migrate();
 
-                // Seed the user.
+                // Seed the user and product data.
                 var anyUser = context.Users.AnyAsync(p => !p.Deleted).Result;
                 if (!anyUser)
                 {
-                    context.Users.Add(new User { Id = 1 });
+                    context.Users.Add(new User { Id = 1, Deleted = false });
                 }
 
                 var anyProduct = context.Products.AnyAsync(p => !p.Deleted).Result;
@@ -32,6 +32,13 @@ namespace CiSeCase.Api
                         Id = 1,
                         Deleted = false,
                         StockQuantity = 10
+                    });
+
+                    context.Products.Add(new Product
+                    {
+                        Id = 2,
+                        Deleted = false,
+                        StockQuantity = 5
                     });
                 }
                 context.SaveChanges();

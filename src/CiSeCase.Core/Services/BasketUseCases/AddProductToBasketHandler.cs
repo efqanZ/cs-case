@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 using CiSeCase.Core.Dtos.Request;
@@ -47,9 +48,12 @@ namespace CiSeCase.Core.Services.BasketUseCases
                 throw new ArgumentNullException("User Id not found.");//ToDo: Bu hata alındığında, bu UserId ile kayıtlı sepet verileri kaldırılabilir.(In-Progress event ile)
 
             //ToDo: Cache ile kontrol edilebilir.
-            var anyProduct = await _productRepo.AnyAsync(p => p.Id == request.ProductId);
-            if (!anyProduct)
+            var product = await _productRepo.FirstOrDefaultAsync(p => p.Id == request.ProductId);
+            if (product == null)
                 throw new ArgumentNullException("Product Id not found."); //ToDo: Bu hata alındığında, tüm kullanıcı sepetlerinden bu ürün kaldırılabilir.(In Progress event ile)
+
+            if (product.StockQuantity < request.Quantity)
+                throw new ValidationException("Basket quantity is higher than the stock quantity!");
 
             var basketItem = await _basketRepo.FirstOrDefaultAsync(p => p.UserId == request.UserId
                                                                    && p.ProductId == request.ProductId);
@@ -74,8 +78,6 @@ namespace CiSeCase.Core.Services.BasketUseCases
                     await _basketRepo.EditAsync(basketItem);
                 }
             }
-
-
 
             await _mediatR.Publish(new AddProductToBasketEvent(basketItem));
 

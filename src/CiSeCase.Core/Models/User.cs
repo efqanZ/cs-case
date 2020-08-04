@@ -5,6 +5,6 @@ namespace CiSeCase.Core.Models
 {
     public class User : AuditEntity<int>
     {
-        public virtual ICollection<Basket> BasketItems { get; set; }
+        public ICollection<Basket> BasketItems { get; set; }
     }
 }

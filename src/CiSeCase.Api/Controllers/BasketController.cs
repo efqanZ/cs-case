@@ -8,7 +8,7 @@ namespace CiSeCase.Api.Controllers
 {
     //[Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class BasketController : ControllerBase
     {
         private readonly IMediator _mediator;

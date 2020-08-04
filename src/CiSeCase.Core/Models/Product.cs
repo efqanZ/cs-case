@@ -8,6 +8,6 @@ namespace CiSeCase.Core.Models
     {
         public int StockQuantity { get; set; }
 
-        public virtual ICollection<Basket> BasketItems { get; set; }
+        public ICollection<Basket> BasketItems { get; set; }
     }
 }
